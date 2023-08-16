@@ -18,7 +18,7 @@ type CreateCustomerCommand struct {
 	cpf  string
 }
 
-type CustomerProps struct {
+type Props struct {
 	Id   uuid.UUID
 	Cpf  string
 	Name string
@@ -30,7 +30,7 @@ type Customer struct {
 	name string
 }
 
-func NewCustomer(props CustomerProps) (*Customer, error) {
+func NewCustomer(props Props) (*Customer, error) {
 	return &Customer{
 		id:   props.Id,
 		cpf:  props.Cpf,
@@ -66,10 +66,12 @@ func (props *Customer) GetCpf() string {
 	return props.cpf
 }
 
-func (props *Customer) ToJson() (string, error) {
-	jsonProps, err := json.Marshal(props)
-	if err != nil {
-		return "", err
-	}
-	return string(jsonProps), nil
+func (props *Customer) Equals(customer Customer) bool {
+	return props.id == customer.id
+}
+
+func (props *Customer) ToJson() string {
+	customerProps := &Props{props.id, props.cpf, props.name}
+	jsonProps, _ := json.Marshal(customerProps)
+	return string(jsonProps)
 }
