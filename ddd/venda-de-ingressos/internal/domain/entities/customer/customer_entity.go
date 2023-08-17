@@ -4,13 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/google/uuid"
+	"venda-de-ingressos/pkg/domain/values-objects"
 )
 
 var (
-	ErrIdIsRequired   = errors.New("id is required")
-	ErrInvalidId      = errors.New("invalid id")
-	ErrNameIsRequired = errors.New("name is required")
-	ErrCpfIsRequired  = errors.New("cpf is required")
+	ErrCpfIsRequired = errors.New("cpf is required")
 )
 
 type CreateCustomerCommand struct {
@@ -26,44 +24,47 @@ type Props struct {
 
 type Customer struct {
 	id   uuid.UUID
-	cpf  string
-	name string
+	cpf  values_objects.Cpf
+	name values_objects.Name
 }
 
 func NewCustomer(props Props) (*Customer, error) {
+	name, err := values_objects.NewName(props.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	cpf, err := values_objects.NewCpf(props.Cpf)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Customer{
 		id:   props.Id,
-		cpf:  props.Cpf,
-		name: props.Name,
+		cpf:  *cpf,
+		name: *name,
 	}, nil
 }
 
 func CreateCustomer(command CreateCustomerCommand) (*Customer, error) {
-	if command.name == "" {
-		return nil, ErrNameIsRequired
-	}
-
-	if command.cpf == "" {
-		return nil, ErrCpfIsRequired
-	}
-
-	return &Customer{
-		id:   uuid.New(),
-		name: command.name,
-		cpf:  command.cpf,
-	}, nil
+	customer, err := NewCustomer(Props{
+		uuid.New(),
+		command.cpf,
+		command.name,
+	})
+	return customer, err
 }
 
 func (props *Customer) GetId() uuid.UUID {
 	return props.id
 }
 
-func (props *Customer) GetName() string {
-	return props.name
+func (props *Customer) GetName() *values_objects.Name {
+	return &props.name
 }
 
-func (props *Customer) GetCpf() string {
-	return props.cpf
+func (props *Customer) GetCpf() *values_objects.Cpf {
+	return &props.cpf
 }
 
 func (props *Customer) Equals(customer Customer) bool {
@@ -71,7 +72,7 @@ func (props *Customer) Equals(customer Customer) bool {
 }
 
 func (props *Customer) ToJson() string {
-	customerProps := &Props{props.id, props.cpf, props.name}
+	customerProps := &Props{props.id, props.cpf.GetValue(), props.name.GetValue()}
 	jsonProps, _ := json.Marshal(customerProps)
 	return string(jsonProps)
 }

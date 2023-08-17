@@ -17,13 +17,13 @@ func (suite *CustomerTestSuit) SetupTest() {
 	id, _ := uuid.Parse("5b2c9913-f782-4dab-a950-99650497c115")
 	suite.customerProps1 = Props{
 		Id:   id,
-		Cpf:  "290.658.340-52",
+		Cpf:  "29065834052",
 		Name: "Test A",
 	}
 	id, _ = uuid.Parse("bf913ce3-2f8c-446a-b96f-7966486bffa4")
 	suite.customerProps1 = Props{
 		Id:   id,
-		Cpf:  "411.523.820-80",
+		Cpf:  "41152382080",
 		Name: "Test B",
 	}
 	suite.createCustomerCommand1 = CreateCustomerCommand{
@@ -36,15 +36,15 @@ func (suite *CustomerTestSuit) Test_deve_inicializar_um_Customer() {
 	customer, err := NewCustomer(suite.customerProps1)
 	suite.Nil(err)
 	suite.Equal(suite.customerProps1.Id, customer.GetId())
-	suite.Equal(suite.customerProps1.Name, customer.GetName())
-	suite.Equal(suite.customerProps1.Cpf, customer.GetCpf())
+	suite.Equal(suite.customerProps1.Name, customer.GetName().GetValue())
+	suite.Equal(suite.customerProps1.Cpf, customer.GetCpf().GetValue())
 }
 
 func (suite *CustomerTestSuit) Test_deve_criar_um_Customer_quando_receber_um_comando_CreateCustomerCommand() {
 	customer, err := CreateCustomer(suite.createCustomerCommand1)
 	suite.Nil(err)
-	suite.Equal(suite.createCustomerCommand1.name, customer.GetName())
-	suite.Equal(suite.createCustomerCommand1.cpf, customer.GetCpf())
+	suite.Equal(suite.createCustomerCommand1.name, customer.GetName().GetValue())
+	suite.Equal(suite.createCustomerCommand1.cpf, customer.GetCpf().GetValue())
 }
 
 func (suite *CustomerTestSuit) Test_deve_verificar_se_um_Customer_e_igual_ao_outro() {
