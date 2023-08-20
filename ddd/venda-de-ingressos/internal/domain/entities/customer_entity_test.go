@@ -1,4 +1,4 @@
-package customer
+package entities
 
 import (
 	"github.com/google/uuid"
@@ -55,6 +55,6 @@ func (suite *CustomerTestSuit) Test_deve_verificar_se_um_Customer_e_igual_ao_out
 	suite.True(customerA.Equals(*customerC))
 }
 
-func TestSuit(t *testing.T) {
+func Test_Customer(t *testing.T) {
 	suite.Run(t, new(CustomerTestSuit))
 }

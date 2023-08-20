@@ -1,9 +1,8 @@
-package events
+package entities
 
 import (
 	"github.com/google/uuid"
 	"time"
-	events "venda-de-ingressos/internal/domain/entities/partner"
 	values_objects "venda-de-ingressos/pkg/domain/values-objects"
 )
 
@@ -41,7 +40,7 @@ type Event struct {
 	published         bool
 	totalSpots        int
 	totalSpotReserved int
-	partnerId         events.PartnerId
+	partnerId         PartnerId
 	section           []EventSection
 }
 
@@ -55,7 +54,7 @@ func NewEvent(props EventProps) (*Event, error) {
 		published:         props.Published,
 		totalSpots:        props.TotalSpots,
 		totalSpotReserved: props.TotalSpotReserved,
-		partnerId:         *events.NewPartnerId(props.PartnerId),
+		partnerId:         *NewPartnerId(props.PartnerId),
 		section:           props.Sections,
 	}, err
 }

@@ -1,4 +1,4 @@
-package events
+package entities
 
 import "github.com/google/uuid"
 

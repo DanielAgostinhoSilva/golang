@@ -1,4 +1,4 @@
-package events
+package entities
 
 import (
 	"github.com/google/uuid"
@@ -64,6 +64,6 @@ func (suite *EventSpotSuitTest) Test_deve_exibir_um_json_quando_chamar_o_metodo_
 		eventSpot.ToJson())
 }
 
-func TestSuit(t *testing.T) {
+func Test_EventSpot(t *testing.T) {
 	suite.Run(t, new(EventSpotSuitTest))
 }

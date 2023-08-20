@@ -1,4 +1,4 @@
-package customer
+package entities
 
 import (
 	"encoding/json"
