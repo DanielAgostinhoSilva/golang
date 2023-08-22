@@ -27,5 +27,4 @@ func LoadMigration(env envConfig) {
 		log.Fatal("Erro ao executar as migrações:", err)
 		panic(err)
 	}
-	log.Println("Migrações executadas com sucesso!")
 }
