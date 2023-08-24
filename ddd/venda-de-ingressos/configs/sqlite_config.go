@@ -1,13 +1,13 @@
 package configs
 
 import (
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
 )
 
-func LoadDataBase(connectionString string) *gorm.DB {
-	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+func LoadSqlite(connectionString string) *gorm.DB {
+	db, err := gorm.Open(sqlite.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

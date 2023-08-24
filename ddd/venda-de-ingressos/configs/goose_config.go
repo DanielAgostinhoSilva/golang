@@ -5,11 +5,11 @@ import (
 	"log"
 )
 
-func LoadMigration(env envConfig) {
-	connectionString := env.DBDsn
-	dbDriver := env.DBDriver
-	migrationsDir := "./internal/infra/db/migration"
+func LoadMigration(connectionString string, dbDriver string, migrationsDir string) {
+	LoadMigrationWithCommand(connectionString, dbDriver, migrationsDir, "up")
+}
 
+func LoadMigrationWithCommand(connectionString string, dbDriver string, migrationsDir string, command string) {
 	gooseDB, err := goose.OpenDBWithDriver(dbDriver, connectionString)
 	if err != nil {
 		log.Fatal("Erro ao abrir a conexão com o banco de dados:", err)
@@ -22,7 +22,7 @@ func LoadMigration(env envConfig) {
 		panic(err)
 	}
 
-	err = goose.Run("up", gooseDB, migrationsDir)
+	err = goose.Run(command, gooseDB, migrationsDir)
 	if err != nil {
 		log.Fatal("Erro ao executar as migrações:", err)
 		panic(err)

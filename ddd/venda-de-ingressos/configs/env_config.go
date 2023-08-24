@@ -9,6 +9,7 @@ type envConfig struct {
 	DBDsn         string `mapstructure:"DB_DSN"`
 	DBDriver      string `mapstructure:"DB_DRIVER"`
 	WebServerPort string `mapstructure:"WEB_SERVER_PORT"`
+	MigrationDir  string `mapstructure:"MIGRATION_DIR"`
 }
 
 func LoadEnvConfig(filePath string) *envConfig {
