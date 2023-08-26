@@ -41,7 +41,7 @@ type Event struct {
 	totalSpots        int
 	totalSpotReserved int
 	partnerId         PartnerId
-	section           []EventSection
+	sections          []EventSection
 }
 
 func NewEvent(props EventProps) (*Event, error) {
@@ -55,7 +55,7 @@ func NewEvent(props EventProps) (*Event, error) {
 		totalSpots:        props.TotalSpots,
 		totalSpotReserved: props.TotalSpotReserved,
 		partnerId:         *NewPartnerId(props.PartnerId),
-		section:           props.Sections,
+		sections:          props.Sections,
 	}, err
 }
 
@@ -80,6 +80,7 @@ func (props *Event) AddSection(command AddSectionCommand) error {
 	}
 	eventSection, err := CreateEventSection(createEventSectionCommand)
 	if eventSection != nil {
+		props.sections = append(props.sections, *eventSection)
 		props.totalSpots += eventSection.totalSpot
 	}
 	return err
@@ -126,5 +127,5 @@ func (props *Event) GetPartnerId() uuid.UUID {
 }
 
 func (props *Event) GetSections() []EventSection {
-	return props.section
+	return props.sections
 }
