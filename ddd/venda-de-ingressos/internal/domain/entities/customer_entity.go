@@ -8,15 +8,15 @@ import (
 )
 
 var (
-	ErrCpfIsRequired = errors.New("cpf is required")
+	ErrCpfIsRequired = errors.New("Cpfcpf is required")
 )
 
 type CreateCustomerCommand struct {
-	name string
-	cpf  string
+	Name string
+	Cpf  string
 }
 
-type Props struct {
+type CustomerProps struct {
 	Id   uuid.UUID
 	Cpf  string
 	Name string
@@ -28,7 +28,7 @@ type Customer struct {
 	name values_objects.Name
 }
 
-func NewCustomer(props Props) (*Customer, error) {
+func NewCustomer(props CustomerProps) (*Customer, error) {
 	name, err := values_objects.NewName(props.Name)
 	if err != nil {
 		return nil, err
@@ -47,10 +47,10 @@ func NewCustomer(props Props) (*Customer, error) {
 }
 
 func CreateCustomer(command CreateCustomerCommand) (*Customer, error) {
-	customer, err := NewCustomer(Props{
+	customer, err := NewCustomer(CustomerProps{
 		uuid.New(),
-		command.cpf,
-		command.name,
+		command.Cpf,
+		command.Name,
 	})
 	return customer, err
 }
@@ -72,7 +72,7 @@ func (props *Customer) Equals(customer Customer) bool {
 }
 
 func (props *Customer) ToJson() string {
-	customerProps := &Props{props.id, props.cpf.GetValue(), props.name.GetValue()}
+	customerProps := &CustomerProps{props.id, props.cpf.GetValue(), props.name.GetValue()}
 	jsonProps, _ := json.Marshal(customerProps)
 	return string(jsonProps)
 }

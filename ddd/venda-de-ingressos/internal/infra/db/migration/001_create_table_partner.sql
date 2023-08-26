@@ -1,9 +1,9 @@
 -- +goose Up
-CREATE TABLE Partner
+CREATE TABLE PARTNER
 (
-    Id   CHAR(36) PRIMARY KEY,
-    Name VARCHAR(255)
+    ID   CHAR(36) PRIMARY KEY,
+    NAME VARCHAR(255)
 );
 
 -- +goose Down
-DROP TABLE Partner;
+DROP TABLE PARTNER;

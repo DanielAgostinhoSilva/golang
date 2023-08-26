@@ -4,7 +4,7 @@ import "errors"
 
 var (
 	ErrNameIsRequired = errors.New("name is required")
-	ErrInvalidName    = errors.New("Invalid Name")
+	ErrInvalidName    = errors.New("Invalid NAME")
 )
 
 type Name struct {

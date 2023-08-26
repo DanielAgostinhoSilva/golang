@@ -60,7 +60,7 @@ func (suite *EventSpotSuitTest) Test_deve_permitir_fazer_um_UnPublish_no_EventSp
 func (suite *EventSpotSuitTest) Test_deve_exibir_um_json_quando_chamar_o_metodo_ToJson() {
 	eventSpot, _ := NewEventSpot(suite.props1)
 	suite.Equal(
-		`{"Id":"2dc1b1cc-2468-485b-92f0-e7f0e366086e","Location":"Test location 1","Reserved":false,"Published":false}`,
+		`{"ID":"2dc1b1cc-2468-485b-92f0-e7f0e366086e","Location":"Test location 1","Reserved":false,"Published":false}`,
 		eventSpot.ToJson())
 }
 

@@ -12,7 +12,6 @@ import (
 type PartnerAdapterSuiteTest struct {
 	suite.Suite
 	db                   *gorm.DB
-	partner              entities.Partner
 	createPartnerCommand entities.CreatePartnerCommand
 }
 
@@ -22,19 +21,13 @@ func (suite *PartnerAdapterSuiteTest) SetupSuite() {
 }
 
 func (suite *PartnerAdapterSuiteTest) SetupTest() {
-	id, _ := uuid.Parse("bb46df01-2924-4a0a-a15e-4160a3284c55")
-	partner, _ := entities.NewPartner(entities.PartnerProps{
-		Id:   id,
-		Name: "Partner Name",
-	})
 	suite.createPartnerCommand = entities.CreatePartnerCommand{
-		Name: "Partner Name",
+		Name: "Partner NAME",
 	}
-	suite.partner = *partner
 }
 
 func (suite *PartnerAdapterSuiteTest) TearDownTest() {
-	suite.db.Table("Partner").Where("id is not null").Delete(nil)
+	suite.db.Table("PARTNER").Where("id is not null").Delete(nil)
 }
 
 func (suite *PartnerAdapterSuiteTest) TearDownSuite() {

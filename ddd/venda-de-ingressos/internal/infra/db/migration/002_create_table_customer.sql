@@ -1,0 +1,10 @@
+-- +goose Up
+CREATE TABLE CUSTOMER
+(
+    ID   CHAR(36) PRIMARY KEY,
+    NAME VARCHAR(255),
+    CPF VARCHAR(255)
+);
+
+-- +goose Down
+DROP TABLE CUSTOMER;

@@ -19,8 +19,8 @@ func NewPartnerAdapter(db *gorm.DB) *PartnerAdapter {
 
 func (props *PartnerAdapter) Save(partner entities.Partner) error {
 	return props.DB.Create(&model.PartnerModel{
-		Id:   partner.GetId(),
-		Name: partner.GetName(),
+		ID:   partner.GetId(),
+		NAME: partner.GetName(),
 	}).Error
 }
 

@@ -14,8 +14,8 @@ func NewPartnerMapper() PartnerMapper {
 
 func (props *PartnerMapper) ToDomain(model model.PartnerModel) (*entities.Partner, error) {
 	return entities.NewPartner(entities.PartnerProps{
-		Id:   model.Id,
-		Name: model.Name,
+		Id:   model.ID,
+		Name: model.NAME,
 	})
 }
 
