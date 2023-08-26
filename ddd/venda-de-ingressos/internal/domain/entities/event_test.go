@@ -69,6 +69,19 @@ func (suite *EventSuitTest) Test_deve_permitir_adicionar_uma_event_desction() {
 	err := event.AddSection(suite.addSectionCommand)
 	suite.Nil(err)
 	suite.Equal(suite.addSectionCommand.TotalSpot, event.totalSpots)
+	suite.Len(event.GetSections(), 1)
+}
+
+func (suite *EventSuitTest) Test_deve_permitir_publicar_um_event() {
+	event, _ := CreateEvent(suite.createEventCommand)
+	event.Publish()
+	suite.True(event.IsPublished())
+}
+
+func (suite *EventSuitTest) Test_deve_permitir_despublicar_um_event() {
+	event, _ := CreateEvent(suite.createEventCommand)
+	event.UnPublish()
+	suite.False(event.IsPublished())
 }
 
 func Test_EventSuitTest(t *testing.T) {

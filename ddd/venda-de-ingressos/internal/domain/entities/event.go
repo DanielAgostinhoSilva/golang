@@ -71,6 +71,14 @@ func CreateEvent(command CreateEventCommand) (*Event, error) {
 	return event, err
 }
 
+func (props *Event) Publish() {
+	props.published = true
+}
+
+func (props *Event) UnPublish() {
+	props.published = false
+}
+
 func (props *Event) AddSection(command AddSectionCommand) error {
 	createEventSectionCommand := CreateEventSectionCommand{
 		command.Name,
