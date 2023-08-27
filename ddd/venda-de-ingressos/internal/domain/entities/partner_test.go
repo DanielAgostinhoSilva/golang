@@ -18,13 +18,13 @@ func (suite *PartnerSuitTest) SetupTest() {
 	id, _ := uuid.Parse("bb46df01-2924-4a0a-a15e-4160a3284c55")
 	suite.props1 = PartnerProps{
 		id,
-		"Partner NAME",
+		"Partner Name",
 	}
 	suite.createPartnerCommand = CreatePartnerCommand{
-		"Partner NAME X",
+		"Partner Name X",
 	}
 	suite.initEventCommand = InitEventCommand{
-		"Partner NAME Y",
+		"Partner Name Y",
 		"Partner Description Y",
 		time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
 	}
@@ -55,9 +55,9 @@ func (suite *PartnerSuitTest) Test_deve_iniciar_um_event_a_partir_de_um_partner(
 
 func (suite *PartnerSuitTest) Test_deve_permitir_alterar_o_nome_do_partner() {
 	partner, _ := CreatePartner(suite.createPartnerCommand)
-	err := partner.ChangeName("Partner NAME abc")
+	err := partner.ChangeName("Partner Name abc")
 	suite.Nil(err)
-	suite.Equal("Partner NAME abc", partner.GetName())
+	suite.Equal("Partner Name abc", partner.GetName())
 }
 
 func Test_Partner(t *testing.T) {

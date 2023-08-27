@@ -13,26 +13,28 @@ type CustomerAdapterSuiteTest struct {
 	suite.Suite
 	db                    *gorm.DB
 	createCustomerCommand entities.CreateCustomerCommand
+	env                   *configs.EnvConfig
 }
 
 func (suite *CustomerAdapterSuiteTest) SetupSuite() {
-	suite.db = configs.LoadSqlite("./../../../test.db")
-	configs.LoadMigration("./../../../test.db", "sqlite3", "./migration")
+	suite.env = configs.LoadEnvConfig("./../../../cmd/server/test.env")
+	suite.db = configs.LoadDataBase(*suite.env)
+	configs.LoadMigrationUp(*suite.env)
 }
 
 func (suite *CustomerAdapterSuiteTest) SetupTest() {
 	suite.createCustomerCommand = entities.CreateCustomerCommand{
-		Name: "Partner NAME",
+		Name: "Partner Name",
 		Cpf:  "17711109024",
 	}
 }
 
 func (suite *CustomerAdapterSuiteTest) TearDownTest() {
-	suite.db.Table("CUSTOMER").Where("id is not null").Delete(nil)
+	suite.db.Table("customer").Where("id is not null").Delete(nil)
 }
 
 func (suite *CustomerAdapterSuiteTest) TearDownSuite() {
-	configs.LoadMigrationWithCommand("./../../../test.db", "sqlite3", "./migration", "down")
+	configs.LoadMigrationDown(*suite.env)
 }
 
 func (suite *CustomerAdapterSuiteTest) Test_deve_persistir_um_customer_no_banco_de_dados() {

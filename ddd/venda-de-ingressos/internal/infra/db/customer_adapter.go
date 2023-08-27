@@ -19,9 +19,9 @@ func NewCustomerAdapter(db *gorm.DB) *CustomerAdapter {
 
 func (props *CustomerAdapter) Save(customer entities.Customer) error {
 	return props.DB.Create(&model.CustomerModel{
-		ID:   customer.GetId(),
-		NAME: customer.GetName().GetValue(),
-		CPF:  customer.GetCpf().GetValue(),
+		Id:   customer.GetId(),
+		Name: customer.GetName().GetValue(),
+		Cpf:  customer.GetCpf().GetValue(),
 	}).Error
 }
 

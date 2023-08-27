@@ -13,25 +13,27 @@ type PartnerAdapterSuiteTest struct {
 	suite.Suite
 	db                   *gorm.DB
 	createPartnerCommand entities.CreatePartnerCommand
+	env                  *configs.EnvConfig
 }
 
 func (suite *PartnerAdapterSuiteTest) SetupSuite() {
-	suite.db = configs.LoadSqlite("./../../../test.db")
-	configs.LoadMigration("./../../../test.db", "sqlite3", "./migration")
+	suite.env = configs.LoadEnvConfig("./../../../cmd/server/test.env")
+	suite.db = configs.LoadDataBase(*suite.env)
+	configs.LoadMigrationUp(*suite.env)
 }
 
 func (suite *PartnerAdapterSuiteTest) SetupTest() {
 	suite.createPartnerCommand = entities.CreatePartnerCommand{
-		Name: "Partner NAME",
+		Name: "Partner Name",
 	}
 }
 
 func (suite *PartnerAdapterSuiteTest) TearDownTest() {
-	suite.db.Table("PARTNER").Where("id is not null").Delete(nil)
+	suite.db.Table("partner").Where("id is not null").Delete(nil)
 }
 
 func (suite *PartnerAdapterSuiteTest) TearDownSuite() {
-	configs.LoadMigrationWithCommand("./../../../test.db", "sqlite3", "./migration", "down")
+	configs.LoadMigrationDown(*suite.env)
 }
 
 func (suite *PartnerAdapterSuiteTest) Test_deve_persistir_um_partner_no_banco_de_dados() {

@@ -6,8 +6,8 @@ import (
 	"log"
 )
 
-func LoadDataBase(connectionString string) *gorm.DB {
-	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+func LoadDataBase(env EnvConfig) *gorm.DB {
+	db, err := gorm.Open(mysql.Open(env.DBDsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

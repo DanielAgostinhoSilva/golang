@@ -1,30 +1,41 @@
 package configs
 
 import (
+	"database/sql"
 	"github.com/pressly/goose/v3"
 	"log"
 )
 
-func LoadMigration(connectionString string, dbDriver string, migrationsDir string) {
-	LoadMigrationWithCommand(connectionString, dbDriver, migrationsDir, "up")
+func LoadMigrationUp(env EnvConfig) {
+	gooseDB := getSql(env)
+
+	err := goose.Up(gooseDB, env.MigrationDir)
+	if err != nil {
+		log.Fatal("Erro ao executar as migrações:", err)
+		panic(err)
+	}
 }
 
-func LoadMigrationWithCommand(connectionString string, dbDriver string, migrationsDir string, command string) {
-	gooseDB, err := goose.OpenDBWithDriver(dbDriver, connectionString)
+func LoadMigrationDown(env EnvConfig) {
+	gooseDB := getSql(env)
+	err := goose.DownTo(gooseDB, env.MigrationDir, 0)
+	if err != nil {
+		log.Fatal("Erro ao executar as migrações:", err)
+		panic(err)
+	}
+}
+
+func getSql(env EnvConfig) *sql.DB {
+	gooseDB, err := goose.OpenDBWithDriver(env.DBDriver, env.DBDsn)
 	if err != nil {
 		log.Fatal("Erro ao abrir a conexão com o banco de dados:", err)
 		panic(err)
 	}
 
-	err = goose.SetDialect(dbDriver)
+	err = goose.SetDialect(env.DBDriver)
 	if err != nil {
 		log.Fatal("Erro ao configurar o dialect:", err)
 		panic(err)
 	}
-
-	err = goose.Run(command, gooseDB, migrationsDir)
-	if err != nil {
-		log.Fatal("Erro ao executar as migrações:", err)
-		panic(err)
-	}
+	return gooseDB
 }

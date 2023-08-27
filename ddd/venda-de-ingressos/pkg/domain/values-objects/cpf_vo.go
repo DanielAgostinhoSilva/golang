@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrInvalidCpf = errors.New("Invalid CPF")
+	ErrInvalidCpf = errors.New("Invalid Cpf")
 )
 
 type Cpf struct {

@@ -19,7 +19,7 @@ func (suite *EventSuitTest) SetupTest() {
 	partnerId, _ := uuid.Parse("1226f73f-ec21-4f23-a75b-9eb63caac5bb")
 	suite.props1 = EventProps{
 		Id:                id,
-		Name:              "Event NAME A",
+		Name:              "Event Name A",
 		Description:       "Event Description A",
 		Date:              time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
 		Published:         false,
@@ -29,13 +29,13 @@ func (suite *EventSuitTest) SetupTest() {
 		Sections:          []EventSection{},
 	}
 	suite.createEventCommand = CreateEventCommand{
-		Name:        "Event NAME A",
+		Name:        "Event Name A",
 		Description: "Event Description A",
 		Date:        time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
 		PartnerId:   partnerId,
 	}
 	suite.addSectionCommand = AddSectionCommand{
-		Name:        "Event NAME A",
+		Name:        "Event Name A",
 		Description: "Event Description A",
 		TotalSpot:   10,
 		Price:       100.00,

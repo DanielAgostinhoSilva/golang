@@ -5,15 +5,15 @@ import (
 	"log"
 )
 
-type envConfig struct {
+type EnvConfig struct {
 	DBDsn         string `mapstructure:"DB_DSN"`
 	DBDriver      string `mapstructure:"DB_DRIVER"`
 	WebServerPort string `mapstructure:"WEB_SERVER_PORT"`
 	MigrationDir  string `mapstructure:"MIGRATION_DIR"`
 }
 
-func LoadEnvConfig(filePath string) *envConfig {
-	var cfg *envConfig
+func LoadEnvConfig(filePath string) *EnvConfig {
+	var cfg *EnvConfig
 	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
 	viper.SetConfigFile(filePath)

@@ -6,6 +6,6 @@ import (
 
 func main() {
 	env := configs.LoadEnvConfig("./cmd/server/.env")
-	configs.LoadMigration(env.DBDsn, env.DBDriver, env.MigrationDir)
-	configs.LoadDataBase(env.DBDsn)
+	configs.LoadMigrationUp(*env)
+	configs.LoadDataBase(*env)
 }

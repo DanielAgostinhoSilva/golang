@@ -14,9 +14,9 @@ func NewCustomerMapper() CustomerMapper {
 
 func (props *CustomerMapper) ToDomain(model model.CustomerModel) (*entities.Customer, error) {
 	return entities.NewCustomer(entities.CustomerProps{
-		Id:   model.ID,
-		Cpf:  model.CPF,
-		Name: model.NAME,
+		Id:   model.Id,
+		Cpf:  model.Cpf,
+		Name: model.Name,
 	})
 }
 
