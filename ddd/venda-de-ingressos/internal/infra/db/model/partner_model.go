@@ -1,10 +1,12 @@
 package model
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type PartnerModel struct {
-	Id   uuid.UUID `gorm:"column:id"`
-	Name string    `gorm:"column:name"`
+	Id   uuid.UUID `gorm:"primarykey"`
+	Name string
 }
 
 func (PartnerModel) TableName() string {

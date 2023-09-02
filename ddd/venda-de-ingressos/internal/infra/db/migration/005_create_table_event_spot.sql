@@ -1,10 +1,10 @@
 -- +goose Up
 CREATE TABLE event_spot
 (
-    id        CHAR(36) PRIMARY KEY,
-    location  VARCHAR(255),
-    reserved  TINYINT(1),
-    published TINYINT(1),
+    id               CHAR(36) PRIMARY KEY,
+    location         VARCHAR(255),
+    reserved         TINYINT(1),
+    published        TINYINT(1),
     event_section_id CHAR(36)
 );
 

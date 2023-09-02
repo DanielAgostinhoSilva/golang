@@ -1,11 +1,13 @@
 package model
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type CustomerModel struct {
-	Id   uuid.UUID `gorm:"column:id"`
-	Cpf  string    `gorm:"column:cpf"`
-	Name string    `gorm:"column:name"`
+	Id   uuid.UUID `gorm:"primarykey"`
+	Cpf  string
+	Name string
 }
 
 func (CustomerModel) TableName() string {
