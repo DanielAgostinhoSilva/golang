@@ -21,8 +21,13 @@ func NewEventAdapter(db *gorm.DB) *EventAdapter {
 }
 
 func (props *EventAdapter) Save(entity entities.Event) error {
+	tx := props.DB.Begin()
 	eventModel := props.mapper.ToModel(entity)
-	return props.DB.Create(eventModel).Error
+	err := tx.Create(eventModel).Commit().Error
+	if err != nil {
+		tx.Rollback()
+	}
+	return err
 }
 
 func (props *EventAdapter) FindById(id uuid.UUID) (*entities.Event, error) {
