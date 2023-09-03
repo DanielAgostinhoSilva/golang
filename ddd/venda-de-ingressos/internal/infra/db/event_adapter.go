@@ -52,7 +52,6 @@ func (props *EventAdapter) Delete(id uuid.UUID) error {
 
 func (props *EventAdapter) findOrFail(id uuid.UUID) (*model.EventModel, error) {
 	var eventModel model.EventModel
-	//err := props.DB.Preload("Sections").First(&eventModel, "id = ?", id).Error
 	err := props.DB.Model(&model.EventModel{}).Preload("Sections").First(&eventModel, "id = ?", id).Error
 	return &eventModel, err
 }

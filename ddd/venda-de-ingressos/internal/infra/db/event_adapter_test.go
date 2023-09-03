@@ -20,10 +20,10 @@ type EventAdapterSuitTest struct {
 func (suite *EventAdapterSuitTest) SetupSuite() {
 	suite.env = configs.LoadEnvConfig("./../../../cmd/server/test.env")
 	suite.db = configs.LoadDataBase(*suite.env)
-	configs.LoadMigrationUp(*suite.env)
 }
 
 func (suite *EventAdapterSuitTest) SetupTest() {
+	configs.LoadMigrationUp(*suite.env)
 	suite.createPartnerCommand = entities.CreatePartnerCommand{
 		Name: "Partner Name",
 	}
@@ -36,38 +36,7 @@ func (suite *EventAdapterSuitTest) SetupTest() {
 }
 
 func (suite *EventAdapterSuitTest) TearDownTest() {
-	suite.db.Table("event").Where("id is not null").Delete(nil)
-}
-
-func (suite *EventAdapterSuitTest) TearDownSuite() {
 	configs.LoadMigrationDown(*suite.env)
-}
-
-func (suite *EventAdapterSuitTest) Test_deve_persistir_um_event_no_banco_de_dados() {
-	partner, err := entities.CreatePartner(suite.createPartnerCommand)
-	suite.Nil(err)
-
-	partnerAdapter := NewPartnerAdapter(suite.db)
-	err = partnerAdapter.Save(*partner)
-	suite.Nil(err)
-
-	createEventCommand := entities.CreateEventCommand{
-		Name:        "Event Name Test",
-		Description: "Event Description Test",
-		Date:        time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
-		PartnerId:   partner.GetId(),
-	}
-
-	event, err := entities.CreateEvent(createEventCommand)
-	suite.Nil(err)
-
-	adapter := NewEventAdapter(suite.db)
-	err = adapter.Save(*event)
-	suite.Nil(err)
-
-	eventFound, err := adapter.FindById(event.GetId())
-	suite.Nil(err)
-	suite.Equal(eventFound.GetId(), event.GetId())
 }
 
 func (suite *EventAdapterSuitTest) Test_ao_adicionar_uma_section_deve_persisitir_um_evento() {
@@ -111,7 +80,63 @@ func (suite *EventAdapterSuitTest) Test_ao_adicionar_uma_section_deve_persisitir
 	suite.Nil(err)
 	suite.Equal(eventFound.GetId(), event.GetId())
 	suite.Len(eventFound.GetSections(), 2)
+}
 
+func (suite *EventAdapterSuitTest) Test_deve_buscar_todos_os_registro_no_banco_de_dados() {
+	partner, err := entities.CreatePartner(suite.createPartnerCommand)
+	suite.Nil(err)
+
+	partnerAdapter := NewPartnerAdapter(suite.db)
+	err = partnerAdapter.Save(*partner)
+	suite.Nil(err)
+
+	createEventCommand := entities.CreateEventCommand{
+		Name:        "Event Name Test",
+		Description: "Event Description Test",
+		Date:        time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
+		PartnerId:   partner.GetId(),
+	}
+
+	event, err := entities.CreateEvent(createEventCommand)
+	suite.Nil(err)
+
+	adapter := NewEventAdapter(suite.db)
+	err = adapter.Save(*event)
+	suite.Nil(err)
+
+	events, err := adapter.FindAll()
+	suite.Nil(err)
+	suite.Len(events, 1)
+}
+
+func (suite *EventAdapterSuitTest) Test_deve_remover_um_evento_por_id() {
+	partner, err := entities.CreatePartner(suite.createPartnerCommand)
+	suite.Nil(err)
+
+	partnerAdapter := NewPartnerAdapter(suite.db)
+	err = partnerAdapter.Save(*partner)
+	suite.Nil(err)
+
+	createEventCommand := entities.CreateEventCommand{
+		Name:        "Event Name Test",
+		Description: "Event Description Test",
+		Date:        time.Date(2023, time.August, 18, 0, 0, 0, 0, time.UTC),
+		PartnerId:   partner.GetId(),
+	}
+
+	event, err := entities.CreateEvent(createEventCommand)
+	suite.Nil(err)
+
+	adapter := NewEventAdapter(suite.db)
+	err = adapter.Save(*event)
+	suite.Nil(err)
+
+	err = adapter.Delete(event.GetId())
+	suite.Nil(err)
+
+	eventFound, err := adapter.FindById(event.GetId())
+	suite.Nil(eventFound)
+	suite.Error(err)
 }
 
 func Test_EventAdapterSuit(t *testing.T) {
